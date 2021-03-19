@@ -5,6 +5,10 @@ const passport = require('passport');
 const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const routes = require('./routes.js');
 const config = require('./config')
+const fs = require('fs');
+const YAML = require('yaml');
+
+
 
 app.set('view engine', 'ejs');
 
@@ -32,7 +36,16 @@ app.use(session({
     callbackURL: config.linkedinAuth.callbackURL,
     scope: ['r_emailaddress', 'r_liteprofile'],
   }, function (token, tokenSecret, profile, done) {
-    console.log(profile);
+    var test = "---\nname : "+profile.displayName+"\nid : "+profile.id+"\nimage :"+profile.photos[profile.photos.length - 1].value+"\n---"
+    
+    try {
+      const data = fs.writeFileSync('/home/ubuntu/plab/plab.hugo/content/team/'+profile.id+'.md', test, { flag: 'w+' })
+      //file written successfully
+    } catch (err) {
+      console.error(err)
+    }
+
+
     return done(null, profile);
   }
   ));

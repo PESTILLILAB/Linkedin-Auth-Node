@@ -36,7 +36,7 @@ app.use(session({
     callbackURL: config.linkedinAuth.callbackURL,
     scope: ['r_emailaddress', 'r_liteprofile'],
   }, function (token, tokenSecret, profile, done) {
-    var test = "---\nname : "+profile.displayName+"\nid : "+profile.id+"\nimage :"+profile.photos[profile.photos.length - 1].value+"\n---"
+    var test = "---\nname : "+profile.displayName+"\nid : "+profile.id+"\nimage : "+profile.photos[profile.photos.length - 1].value+"\n---"
     
     try {
       const data = fs.writeFileSync('/home/ubuntu/plab/plab.hugo/content/team/'+profile.id+'.md', test, { flag: 'w+' })
